@@ -7,6 +7,11 @@ RESTAURANTS_URL = "/Restaurants-g293984-Tel_Aviv_Tel_Aviv_District.html"
 
 
 def get_parser(url):
+    """
+    Creates a parser
+    :param url: string
+    :return: string
+    """
     response = requests.get(url)
     content = response.content
     parser = bs(content, 'html.parser')
@@ -14,6 +19,11 @@ def get_parser(url):
 
 
 def get_urls(parser):
+    """
+    Gets the urls of all the restaurants in different pages
+    :param parser: string
+    :return: list
+    """
     urls = []
     for _ in range(10):
         raw_urls = parser.find_all("a", class_="restaurants-list-ListCell__restaurantName--2aSdo", href=True)
@@ -25,6 +35,11 @@ def get_urls(parser):
 
 
 def get_data(urls):
+    """
+    Scrap the data from each of the urls
+    :param urls: list
+    :return: dict
+    """
     names = []
     values = []
 
@@ -62,6 +77,9 @@ def get_data(urls):
 
 
 def main():
+    """
+    Executes the functions to get the web scraped and prints the information
+    """
     parser = get_parser(TRIP_ADVISOR + RESTAURANTS_URL)
     urls = get_urls(parser)
     scrapper_dict = get_data(urls)
