@@ -12,20 +12,23 @@ def get_parser(url):
     :param url: string
     :return: string
     """
+    #TODO: use TALanguage cookie set to ALL.
     response = requests.get(url)
     content = response.content
     parser = bs(content, 'html.parser')
     return parser
 
 
-def get_urls(parser):
+def get_restaurants_urls(parser, pages):
+
     """
     Gets the urls of all the restaurants in different pages
     :param parser: string
+    :param pages: int, amount of pages to scrap
     :return: list
     """
     urls = []
-    for _ in range(10):
+    for _ in range(pages):
         raw_urls = parser.find_all("a", class_="restaurants-list-ListCell__restaurantName--2aSdo", href=True)
         urls.extend([url["href"] for url in raw_urls])
         next_page = parser.find("a", class_="nav next rndBtn ui_button primary taLnk", href=True)["href"]
@@ -34,15 +37,16 @@ def get_urls(parser):
     return urls
 
 
-def get_data(urls):
+def get_restaurant_data(urls):
     """
-    Scrap the data from each of the urls
+    Scrap the data from each of the restaurants urls
     :param urls: list
     :return: dict
     """
     names = []
     values = []
-
+    #TODO: return a json from each scraped data
+    #TODO: get key from url.
     for url in urls:
         parser = get_parser(TRIP_ADVISOR + url)
         raw_name = parser.find("h1", class_="ui_header h1")
@@ -54,6 +58,7 @@ def get_data(urls):
         raw_rating = parser.find("span",
                                  class_="restaurants-detail-overview-cards-RatingsOverviewCard__overallRating--nohTl")
         rating = float(raw_rating.text.replace("\xa0", ""))
+        #TODO test if parser.find() returns none or false and remove try catch
         try:
             raw_address = parser.find("span", class_="street-address").text
         except AttributeError:
@@ -69,7 +74,7 @@ def get_data(urls):
 
         location = raw_address + " " + raw_city + raw_country
 
-        values.append([review, rating, location])
+        values.append({"review": review, "rating": rating, "location": location})
 
     restaurants = dict(zip(names, values))
 
@@ -81,8 +86,8 @@ def main():
     Executes the functions to get the web scraped and prints the information
     """
     parser = get_parser(TRIP_ADVISOR + RESTAURANTS_URL)
-    urls = get_urls(parser)
-    scrapper_dict = get_data(urls)
+    urls = get_restaurants_urls(parser, 1)
+    scrapper_dict = get_restaurant_data(urls)
     print(scrapper_dict)
 
 
