@@ -12,7 +12,7 @@ def get_parser(url):
     :param url: string
     :return: string
     """
-    #TODO: use TALanguage cookie set to ALL.
+    # TODO: use TALanguage cookie set to ALL.
     response = requests.get(url)
     content = response.content
     parser = bs(content, 'html.parser')
@@ -69,18 +69,21 @@ def get_restaurant_data(urls):
         raw_rating = parser.find("span",
                                  class_="restaurants-detail-overview-cards-RatingsOverviewCard__overallRating--nohTl")
         rating = float(raw_rating.text.replace("\xa0", ""))
-        #TODO test if parser.find() returns none or false and remove try catch
-        try:
+
+        # TODO think a way to make this if statements more pretty
+        if parser.find("span", class_="street-address") is not None:
             raw_address = parser.find("span", class_="street-address").text
-        except AttributeError:
+        else:
             raw_address = ""
-        try:
+
+        if parser.find("span", class_="locality") is not None:
             raw_city = parser.find("span", class_="locality").text
-        except AttributeError:
+        else:
             raw_city = ""
-        try:
+
+        if parser.find("span", class_="locality") is not None:
             raw_country = parser.find("span", class_="country-name").text
-        except AttributeError:
+        else:
             raw_country = ""
 
         location = raw_address + " " + raw_city + raw_country
