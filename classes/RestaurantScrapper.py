@@ -7,16 +7,16 @@ from classes.Restaurant import Restaurant
 class RestaurantScrapper:
     """ TripAdvisor restaurant scrapper, put the city id and get the restaurants"""
 
-    def __init__(self, city_code):
+    def __init__(self, city_id):
         """
-        :param city_code: the code of the city in tripAdvisor, it is inside the url.
+        :param city_id: the code of the city in tripAdvisor, it is inside the url.
         EX:
         url: https://www.tripadvisor.com/Restaurants-g293984-Tel_Aviv_Tel_Aviv_District.html
-        the code is between Restaurants- and -Tel_Aviv: g293984
+        the id is between Restaurants- and -Tel_Aviv: g293984
 
         """
         self.WEB_URL = "https://www.tripadvisor.com"
-        self.RESTAURANTS_URL = f"/Restaurants-{city_code}-xxx.html"
+        self.RESTAURANTS_URL = f"/Restaurants-{city_id}-xxx.html"
 
     def _create_parser(self, url):
         """
