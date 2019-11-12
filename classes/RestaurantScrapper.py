@@ -57,7 +57,7 @@ class RestaurantScrapper:
 
     def _get_country(self, parser):
         """ parse and return the country of the restaurant """
-        country_parser = parser.find("span", class_="locality")
+        country_parser = parser.find("span", class_="country-name")
         return country_parser.text if country_parser is not None else ""
 
     def _get_city(self, parser):
@@ -105,10 +105,9 @@ class RestaurantScrapper:
             name = self._get_name(parser)
             review = self._get_review(parser)
             rating = self._get_rating(parser)
-            raw_address = self._get_address(parser)
-            raw_city = self._get_city(parser)
-            raw_country = self._get_country(parser)
+            address = self._get_address(parser)
+            city = self._get_city(parser)
 
-            restaurants.append(Restaurant(key, name, review, rating, raw_address, raw_city, raw_country))
+            restaurants.append(Restaurant(key, name, review, rating, address, city, raw_country))
 
         return restaurants
