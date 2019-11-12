@@ -51,14 +51,13 @@ def get_restaurant_data(urls):
     :param urls: list
     :return: dict
     """
-    keys = []
-    values = []
+
+    restaurants = []
 
     for url in urls:
         parser = get_parser(TRIP_ADVISOR + url)
 
         key = get_url_key(url)
-        keys.append(key)
 
         raw_name = parser.find("h1", class_="ui_header h1")
         name = raw_name.text
@@ -81,16 +80,14 @@ def get_restaurant_data(urls):
         else:
             raw_city = ""
 
-        if parser.find("span", class_="locality") is not None:
+        if parser.find("span", class_="country-name") is not None:
             raw_country = parser.find("span", class_="country-name").text
         else:
             raw_country = ""
 
         location = raw_address + " " + raw_city + raw_country
 
-        values.append({"name": name, "review": review, "rating": rating, "location": location})
-
-    restaurants = dict(zip(keys, values))
+        restaurants.append({"key": key, "name": name, "review": review, "rating": rating, "location": location})
 
     return restaurants
 
