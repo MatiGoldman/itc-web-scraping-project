@@ -107,7 +107,8 @@ class RestaurantScrapper:
             rating = self._get_rating(parser)
             address = self._get_address(parser)
             city = self._get_city(parser)
+            country = self._get_country(parser)
 
-            restaurants.append(Restaurant(key, name, review, rating, address, city, raw_country))
+            restaurants.append(Restaurant(key, name, review, rating, address, city, country))
 
         return restaurants
