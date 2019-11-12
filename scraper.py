@@ -13,7 +13,9 @@ def get_parser(url):
     :return: string
     """
     # TODO: use TALanguage cookie set to ALL.
-    response = requests.get(url)
+
+    cookies = dict(name='TALanguage', value='ALL', domain=".tripadvisor.com", path="/")
+    response = requests.get(url, cookies=cookies)
     content = response.content
     parser = bs(content, 'html.parser')
     return parser
@@ -55,6 +57,7 @@ def get_restaurant_data(urls):
     restaurants = []
 
     for url in urls:
+
         parser = get_parser(TRIP_ADVISOR + url)
 
         key = get_url_key(url)
