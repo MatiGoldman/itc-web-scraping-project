@@ -37,20 +37,31 @@ def get_restaurants_urls(parser, pages):
     return urls
 
 
+def get_url_key(url):
+    """Splits the url and gets key
+    :param url: string
+    :return: int
+    """
+    return int(url.split("-")[2][1:])
+
+
 def get_restaurant_data(urls):
     """
     Scrap the data from each of the restaurants urls
     :param urls: list
     :return: dict
     """
-    names = []
+    keys = []
     values = []
-    #TODO: return a json from each scraped data
-    #TODO: get key from url.
+
     for url in urls:
         parser = get_parser(TRIP_ADVISOR + url)
+
+        key = get_url_key(url)
+        keys.append(key)
+
         raw_name = parser.find("h1", class_="ui_header h1")
-        names.append(raw_name.text)
+        name = raw_name.text
 
         raw_review = parser.find("span", class_="reviewCount")
         review = int(raw_review.text.split()[0].replace(",", ""))
@@ -74,9 +85,9 @@ def get_restaurant_data(urls):
 
         location = raw_address + " " + raw_city + raw_country
 
-        values.append({"review": review, "rating": rating, "location": location})
+        values.append({"name": name, "review": review, "rating": rating, "location": location})
 
-    restaurants = dict(zip(names, values))
+    restaurants = dict(zip(keys, values))
 
     return restaurants
 
