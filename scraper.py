@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
 
-
 TRIP_ADVISOR = "https://www.tripadvisor.com"
 RESTAURANTS_URL = "/Restaurants-g293984-Tel_Aviv_Tel_Aviv_District.html"
 
@@ -20,7 +19,6 @@ def get_parser(url):
 
 
 def get_restaurants_urls(parser, pages):
-
     """
     Gets the urls of all the restaurants in different pages
     :param parser: string
@@ -60,31 +58,30 @@ def get_restaurant_data(urls):
         key = get_url_key(url)
         keys.append(key)
 
+        # TODO isolate in object method
         raw_name = parser.find("h1", class_="ui_header h1")
         name = raw_name.text
 
+        # TODO isolate in object method
         raw_review = parser.find("span", class_="reviewCount")
         review = int(raw_review.text.split()[0].replace(",", ""))
 
+        # TODO isolate in object method
         raw_rating = parser.find("span",
                                  class_="restaurants-detail-overview-cards-RatingsOverviewCard__overallRating--nohTl")
         rating = float(raw_rating.text.replace("\xa0", ""))
 
-        # TODO think a way to make this if statements more pretty
-        if parser.find("span", class_="street-address") is not None:
-            raw_address = parser.find("span", class_="street-address").text
-        else:
-            raw_address = ""
+        # TODO isolate in object method
+        street_address_parsed = parser.find("span", class_="street-address")
+        raw_address = street_address_parsed.text if street_address_parsed is not None else ""
 
-        if parser.find("span", class_="locality") is not None:
-            raw_city = parser.find("span", class_="locality").text
-        else:
-            raw_city = ""
+        # TODO isolate in object method
+        locality_parsed = parser.find("span", class_="locality")
+        raw_city = locality_parsed.text if locality_parsed is not None else ""
 
-        if parser.find("span", class_="locality") is not None:
-            raw_country = parser.find("span", class_="country-name").text
-        else:
-            raw_country = ""
+        # TODO isolate in object method
+        country_name_parsed = parser.find("span", class_="country-name")
+        raw_country = country_name_parsed.text if country_name_parsed is not None else ""
 
         location = raw_address + " " + raw_city + raw_country
 
