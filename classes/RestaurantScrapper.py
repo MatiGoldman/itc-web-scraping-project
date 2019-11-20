@@ -93,6 +93,8 @@ class RestaurantScrapper:
         :param pages: number of pages that you want to explore
         :return: list(Restaurant)
         """
+        print("Scrapping {} page".format(pages)) if pages == 1 else print("Scrapping {} pages".format(pages))
+
         urls = self._get_urls(pages)
         restaurants = []
 
