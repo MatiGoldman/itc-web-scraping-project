@@ -11,7 +11,7 @@ DATABASE = 'tripAdvisorScrapper'
 def check_positive(value):
     if int(value) <= 0:
         raise argparse.ArgumentTypeError("Please, enter a positive number")
-
+    return int(value)
 
 def get_city_page():
     parser = argparse.ArgumentParser(description='''Please, write the code related to the city. Example
@@ -21,7 +21,6 @@ def get_city_page():
     parser.add_argument("city", help="The city code to be scrapped.")
     parser.add_argument("--pages", help="The amount of pages to be scrapped.", default=1, type=check_positive)
     args = parser.parse_args()
-    print(args)
     return args.city, args.pages
 
 
