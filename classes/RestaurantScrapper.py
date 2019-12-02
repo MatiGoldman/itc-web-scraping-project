@@ -17,6 +17,7 @@ class RestaurantScrapper:
         """
         self.WEB_URL = "https://www.tripadvisor.com"
         self.RESTAURANTS_URL = f"/Restaurants-{city_id}-xxx.html"
+        self.city_id = city_id
 
     def _create_parser(self, url):
         """
@@ -24,7 +25,6 @@ class RestaurantScrapper:
         :param url: string
         :return: string
         """
-        # TODO: use TALanguage cookie set to ALL.
         response = requests.get(url)
         content = response.content
         parser = bs(content, 'html.parser')
@@ -95,22 +95,26 @@ class RestaurantScrapper:
         """
         print("Scrapping {} page".format(pages)) if pages == 1 else print("Scrapping {} pages".format(pages))
 
-        urls = self._get_urls(pages)
-        restaurants = []
+        try:
+            urls = self._get_urls(pages)
+            restaurants = []
 
-        for url in urls:
-            full_url = self.WEB_URL + url
-            print(f"Scrapping {full_url}")
-            parser = self._create_parser(full_url)
+            for key, url in enumerate(urls):
+                full_url = self.WEB_URL + url
+                print(f"#{key + 1} Scrapping {full_url}")
+                parser = self._create_parser(full_url)
 
-            key = self._get_url_key(url)
-            name = self._get_name(parser)
-            review = self._get_review(parser)
-            rating = self._get_rating(parser)
-            address = self._get_address(parser)
-            city = self._get_city(parser)
-            country = self._get_country(parser)
+                key = self._get_url_key(url)
+                name = self._get_name(parser)
+                review = self._get_review(parser)
+                rating = self._get_rating(parser)
+                address = self._get_address(parser)
+                city = self._get_city(parser)
+                country = self._get_country(parser)
 
-            restaurants.append(Restaurant(key, name, review, rating, address, city, country))
+                restaurants.append(Restaurant(key, name, review, rating, address, city, self.city_id, country))
 
-        return restaurants
+            return restaurants
+        except TypeError:
+            print('Oops!, Page Not Found')
+            exit()

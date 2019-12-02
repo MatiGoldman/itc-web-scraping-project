@@ -1,17 +1,14 @@
 from classes.RestaurantScrapper import RestaurantScrapper
+from persistor.RestaurantPersistor import RestaurantPersistor
+from persistor.CityPersistor import CityPersistor
 import argparse
-import mysql.connector
-
-HOST = 'localhost'
-USER = 'root'
-PASSWD = ''
-DATABASE = 'tripAdvisorScrapper'
 
 
 def check_positive(value):
     if int(value) <= 0:
         raise argparse.ArgumentTypeError("Please, enter a positive number")
     return int(value)
+
 
 def get_city_page():
     parser = argparse.ArgumentParser(description='''Please, write the code related to the city. Example
@@ -27,65 +24,26 @@ def get_city_page():
 def save_data(city, scrapper_data):
     print(f'Persisting {len(scrapper_data)} results')
 
-    city_id = city[1:]
-    mydb = mysql.connector.connect(
-        host=HOST,
-        user=USER,
-        passwd=PASSWD,
-        database=DATABASE
-    )
-    db_cursor = mydb.cursor()
+    restaurant_persistor, city_persistor = RestaurantPersistor(), CityPersistor()
 
-    db_cursor.execute(f"SELECT id FROM city WHERE id = {city_id}")
-    city_db = db_cursor.fetchall()
-
-    if len(city_db) == 0:
-        db_cursor.execute("INSERT INTO city (id, name) VALUES (%s, %s)", (city_id, scrapper_data[0].city))
+    city_persistor.insert(scrapper_data[0].city)
+    city_persistor.commit()
 
     for restaurant in scrapper_data:
-        db_cursor.execute('''
-            INSERT INTO restaurant(
-                name,
-                review,
-                rating,
-                address,
-                timestamp,
-                tripadvisor_id,
-                city_id
-            )
-            VALUES (
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s
-            );
-        ''', (
-            restaurant.name,
-            restaurant.review,
-            restaurant.rating,
-            restaurant.address,
-            restaurant.timestamp,
-            restaurant.key,
-            city_id
-        ))
+        restaurant_persistor.insert(restaurant)
 
-        mydb.commit()
+    restaurant_persistor.commit()
 
-        print('Done.')
+    print('Done.')
 
 
 def main():
     """
     Executes the functions to get the web scraped and prints the information
-    #TODO Modificar el envio por parametro de la url/codigo
     """
 
     city, pages = get_city_page()
     scrapper_data = RestaurantScrapper(city).get_restaurants(pages)
-
     save_data(city, scrapper_data)
 
 
