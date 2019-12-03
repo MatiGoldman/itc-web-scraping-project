@@ -4,11 +4,12 @@
 
 Its intention is to scrap the tripadvisor web to find restaurants
 
-#### Database Config
+### Database Config
+The database schema is tripAdvisorScrapper.sql
+
 Please modify db_helper/config.json accordingly to your parameters
 
-The database schema is tripAdvisorScrapper.sql
-##### DB Config file
+#### DB Config file
 ````
 {
   "host": YOUR_HOST,
