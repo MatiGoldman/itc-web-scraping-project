@@ -5,12 +5,20 @@ import argparse
 
 
 def check_positive(value):
+    """Checks if the value of the pages is positive. Otherwise will raise an error
+    :param value: str
+    :returns: int
+    """
     if int(value) <= 0:
         raise argparse.ArgumentTypeError("Please, enter a positive number")
     return int(value)
 
 
 def get_city_page():
+    """Parse the arguments from the CLI. It is asked to provide a city and the amount of cities to be scrapped
+    (default = 1)
+    returns: city, pages
+    """
     parser = argparse.ArgumentParser(description='''Please, write the code related to the city. Example
         url: https://www.tripadvisor.com/Restaurants-g293984-Tel_Aviv_Tel_Aviv_District.html
         The code is between Restaurants - and - Tel_Aviv: g293984
@@ -21,7 +29,8 @@ def get_city_page():
     return args.city, args.pages
 
 
-def save_data(city, scrapper_data):
+def save_data(scrapper_data):
+    """For each of the cities and restaurant, the data is saved into the database"""
     print(f'Persisting {len(scrapper_data)} results')
 
     restaurant_persistor, city_persistor = RestaurantPersistor(), CityPersistor()
@@ -44,7 +53,7 @@ def main():
 
     city, pages = get_city_page()
     scrapper_data = RestaurantScrapper(city).get_restaurants(pages)
-    save_data(city, scrapper_data)
+    save_data(scrapper_data)
 
 
 if __name__ == "__main__":

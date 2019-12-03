@@ -2,7 +2,7 @@ from persistor.Persistor import Persistor
 
 
 class RestaurantPersistor(Persistor):
-
+    """Inserts the restaurants into the database"""
     def __init__(self):
         super().__init__()
 

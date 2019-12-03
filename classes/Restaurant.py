@@ -9,15 +9,15 @@ class Restaurant:
 
     def __init__(self, key, name, review, rating, address, city, city_id, country):
         """
-        Initialize all of the values
+        Initialize the information related to a restaurant
 
-        :param key: restaurant id
-        :param name:
-        :param review:
-        :param rating:
-        :param address:
-        :param city:
-        :param country:
+        :param key: int
+        :param name: string
+        :param review: int
+        :param rating: float
+        :param address: str
+        :param city: str
+        :param country: str
         """
         self.key = key
         self.name = name
