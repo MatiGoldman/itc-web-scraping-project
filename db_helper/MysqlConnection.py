@@ -1,7 +1,7 @@
 import mysql.connector
 import json
 
-CFG_PATH = 'persistor/config.json'
+CFG_PATH = 'db_helper/config.json'
 
 
 class MysqlConnection:
@@ -23,17 +23,9 @@ class MysqlConnection:
         self.db_cursor = self.db_conn.cursor()
 
     def __new__(cls):
-        """Creates a new connection to the database
+        """Singleton to instantiate the connection object
         :return: db connection
         """
         if MysqlConnection.__instance is None:
             MysqlConnection.__instance = object.__new__(cls)
         return MysqlConnection.__instance
-
-    def __del__(self):
-        """Closes the connection to the databsae"""
-        self.db_conn.close()
-
-    def commit(self):
-        """Commit the changes to the database"""
-        self.db_conn.commit()

@@ -1,12 +1,17 @@
-from persistor.Persistor import Persistor
+from db_helper.entity_helper.EntityHelper import EntityHelper
 
 
-class RestaurantPersistor(Persistor):
+class RestaurantHelper(EntityHelper):
     """Inserts the restaurants into the database"""
+
     def __init__(self):
         super().__init__()
 
     def insert(self, restaurant):
+        """
+        Inserts a restaurant into a db
+        :param restaurant: restaurant to insert
+        """
         self.conn.db_cursor.execute('''
                 INSERT INTO restaurant(
                     name,

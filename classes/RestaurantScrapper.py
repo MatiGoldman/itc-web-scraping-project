@@ -56,34 +56,46 @@ class RestaurantScrapper:
         return int(url.split("-")[2][1:])
 
     def _get_country(self, parser):
-        """ parse and return the country of the restaurant """
+        """ parse and return the country of the restaurant
+        :param parser: parser
+        """
         country_parser = parser.find("span", class_="country-name")
         return country_parser.text if country_parser is not None else ""
 
     def _get_city(self, parser):
-        """ parse and return the city of the restaurant """
+        """ parse and return the city of the restaurant
+        :param parser: parser
+        """
         locality_parser = parser.find("span", class_="locality")
         return locality_parser.text if locality_parser is not None else ""
 
     def _get_address(self, parser):
-        """ parse and return the adress of the restaurant """
+        """ parse and return the adress of the restaurant
+        :param parser: parser
+        """
         address_parser = parser.find("span", class_="street-address")
         return address_parser.text if address_parser is not None else ""
 
     def _get_rating(self, parser):
-        """ parse and return the rating of the restaurant """
+        """ parse and return the rating of the restaurant
+        :param parser: parser
+        """
         raw_rating = parser.find("span",
                                  class_="restaurants-detail-overview-cards-RatingsOverviewCard__overallRating--nohTl")
         return float(raw_rating.text.replace("\xa0", ""))
 
     def _get_review(self, parser):
-        """ parse and return the review of the restaurant """
+        """ parse and return the review of the restaurant
+        :param parser: parser
+        """
         raw_review = parser.find("span", class_="reviewCount")
         review = int(raw_review.text.split()[0].replace(",", ""))
         return review
 
     def _get_name(self, parser):
-        """ parse and return the name of the restaurant """
+        """ parse and return the name of the restaurant
+        :param parser: parser
+        """
         raw_name = parser.find("h1", class_="ui_header h1")
         return raw_name.text
 

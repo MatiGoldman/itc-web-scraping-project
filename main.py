@@ -1,6 +1,6 @@
 from classes.RestaurantScrapper import RestaurantScrapper
-from persistor.RestaurantPersistor import RestaurantPersistor
-from persistor.CityPersistor import CityPersistor
+from db_helper.entity_helper.RestaurantHelper import RestaurantHelper
+from db_helper.entity_helper.CityHelper import CityHelper
 import argparse
 
 
@@ -33,7 +33,7 @@ def save_data(scrapper_data):
     """For each of the cities and restaurant, the data is saved into the database"""
     print(f'Persisting {len(scrapper_data)} results')
 
-    restaurant_persistor, city_persistor = RestaurantPersistor(), CityPersistor()
+    restaurant_persistor, city_persistor = RestaurantHelper(), CityHelper()
 
     city_persistor.insert(scrapper_data[0].city)
     city_persistor.commit()
