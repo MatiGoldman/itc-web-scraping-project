@@ -1,4 +1,4 @@
-# README
+# ITC Data Mining Project
 
 ### This web scraper is for the ITC Datamining Project
 
