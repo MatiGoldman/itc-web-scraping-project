@@ -2,12 +2,12 @@
 
 ### This web scraper is for the ITC Datamining Project
 
-Its intention is to scrap the tripadvisor web to find restaurants
+Its intention is to scrap the tripadvisor web to find restaurants.
 
 ### Database Config
-The database schema is tripAdvisorScrapper.sql
+The database schema is `tripAdvisorScrapper.sql`
 
-Please modify db_helper/config.json accordingly to your parameters
+Please modify `db_helper/config.json` accordingly to your parameters.
 
 #### DB Config file
 ````
