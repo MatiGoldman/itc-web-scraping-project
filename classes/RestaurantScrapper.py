@@ -82,7 +82,7 @@ class RestaurantScrapper:
         """
         raw_rating = parser.find("span",
                                  class_="restaurants-detail-overview-cards-RatingsOverviewCard__overallRating--nohTl")
-        return float(raw_rating.text.replace("\xa0", ""))
+        return float(raw_rating.text.replace("\xa0", "")) if raw_rating is not None else ""
 
     def _get_review(self, parser):
         """ parse and return the review of the restaurant
