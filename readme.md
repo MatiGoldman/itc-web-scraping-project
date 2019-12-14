@@ -30,3 +30,9 @@ Please modify `db_helper/config.json` accordingly to your parameters.
   "database": "tripAdvisorScrapper"
 }
 ````
+
+#### Config file for API KEY
+Please, create your own `config.py` file to use your own API KEY.
+The file should have the following line:
+
+`API_KEY = "YOUR_API_KEY"`
