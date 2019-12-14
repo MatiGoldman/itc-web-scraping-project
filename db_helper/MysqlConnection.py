@@ -1,7 +1,7 @@
 import mysql.connector
 import json
 
-CFG_PATH = 'db_helper/config.json'
+CFG_PATH = 'config.json'
 
 
 class MysqlConnection:
@@ -14,10 +14,10 @@ class MysqlConnection:
             config = json.load(cfg)
 
         self.db_conn = mysql.connector.connect(
-            host=config['host'],
-            user=config['user'],
-            passwd=config['password'],
-            database=config['database'],
+            host=config['db']['host'],
+            user=config['db']['user'],
+            passwd=config['db']['password'],
+            database=config['db']['database'],
             use_pure=True
         )
 

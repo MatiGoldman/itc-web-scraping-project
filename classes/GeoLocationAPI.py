@@ -1,15 +1,18 @@
 import requests
-import config
+import json
 
 KEY = "key="
 JOINT = "&"
 LOCATION = "location="
-
+CFG_PATH = 'config.json'
 
 class GeoLocationAPI:
     def __init__(self):
+        with open(CFG_PATH) as cfg:
+            config = json.load(cfg)
+
         self.api_url = "http://open.mapquestapi.com/geocoding/v1/address?"
-        self.api_key = config.API_KEY
+        self.api_key = config['geo_location_key']
 
     def request(self, loc):
         """Requests to the API the geolocation given a specific location

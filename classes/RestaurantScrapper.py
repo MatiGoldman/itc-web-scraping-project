@@ -126,7 +126,7 @@ class RestaurantScrapper:
                 restaurants.append(
                     Restaurant(key, name, review, rating, address, city, self.city_id, country))
 
-            return restaurants
+                return restaurants
         except TypeError:
             print('Oops!, Page Not Found')
             exit()
