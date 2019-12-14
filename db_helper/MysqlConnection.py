@@ -17,7 +17,8 @@ class MysqlConnection:
             host=config['host'],
             user=config['user'],
             passwd=config['password'],
-            database=config['database']
+            database=config['database'],
+            use_pure=True
         )
 
         self.db_cursor = self.db_conn.cursor()

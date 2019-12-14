@@ -10,7 +10,6 @@ class Restaurant:
     def __init__(self, key, name, review, rating, address, city, city_id, country):
         """
         Initialize the information related to a restaurant
-
         :param key: int
         :param name: string
         :param review: int
@@ -18,6 +17,8 @@ class Restaurant:
         :param address: str
         :param city: str
         :param country: str
+        :param lat: float
+        :param lng: float
         """
         self.key = key
         self.name = name

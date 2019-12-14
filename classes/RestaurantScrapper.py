@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
-
+from classes.GeoLocationAPI import GeoLocationAPI
 from classes.Restaurant import Restaurant
 
 
@@ -123,8 +123,8 @@ class RestaurantScrapper:
                 address = self._get_address(parser)
                 city = self._get_city(parser)
                 country = self._get_country(parser)
-
-                restaurants.append(Restaurant(key, name, review, rating, address, city, self.city_id, country))
+                restaurants.append(
+                    Restaurant(key, name, review, rating, address, city, self.city_id, country))
 
             return restaurants
         except TypeError:

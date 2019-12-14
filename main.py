@@ -1,4 +1,5 @@
 from classes.RestaurantScrapper import RestaurantScrapper
+from db_helper.entity_helper.GeoLocationHelper import GeoLocationHelper
 from db_helper.entity_helper.RestaurantHelper import RestaurantHelper
 from db_helper.entity_helper.CityHelper import CityHelper
 import argparse
@@ -30,18 +31,19 @@ def get_city_page():
 
 
 def save_data(scrapper_data):
-    """For each of the cities and restaurant, the data is saved into the database"""
+    """For each of the cities and restaurants, the data is saved into the database"""
     print(f'Persisting {len(scrapper_data)} results')
 
-    restaurant_persistor, city_persistor = RestaurantHelper(), CityHelper()
+    restaurant_persistor, city_persistor, geo_location_persistor = RestaurantHelper(), CityHelper(), GeoLocationHelper()
 
     city_persistor.insert(scrapper_data[0].city)
     city_persistor.commit()
 
     for restaurant in scrapper_data:
         restaurant_persistor.insert(restaurant)
-
+        geo_location_persistor.insert(restaurant)
     restaurant_persistor.commit()
+    geo_location_persistor.commit()
 
     print('Done.')
 
