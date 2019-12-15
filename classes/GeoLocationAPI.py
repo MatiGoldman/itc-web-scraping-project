@@ -4,7 +4,7 @@ import json
 KEY = "key="
 JOINT = "&"
 LOCATION = "location="
-CFG_PATH = 'config.json'
+CFG_PATH = '/config.json'
 
 class GeoLocationAPI:
     def __init__(self):
@@ -30,6 +30,6 @@ class GeoLocationAPI:
         lat = data["results"][0]["locations"][0]["latLng"]["lat"]
         lng = data["results"][0]["locations"][0]["latLng"]["lng"]
         if lat == 39.78373 and lng == -100.445882:
-            return 0, 0
+            return None, None
         else:
             return lat, lng

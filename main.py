@@ -6,6 +6,7 @@ from db_helper.MysqlConnection import MysqlConnection
 import argparse
 import logging
 
+CITY_CODE = 1
 
 def check_positive(value):
     """Checks if the value of the pages is positive. Otherwise will raise an error
@@ -17,19 +18,23 @@ def check_positive(value):
     return int(value)
 
 
+def get_city_code(url):
+    return url.split("-")[CITY_CODE]
+
+
 def get_city_page():
     """Parse the arguments from the CLI. It is asked to provide a city and the amount of cities to be scrapped
     (default = 1)
     returns: city, pages
     """
-    parser = argparse.ArgumentParser(description='''Please, write the code related to the city. Example
+    parser = argparse.ArgumentParser(description='''Please, enter the url related to the city. Example
         url: https://www.tripadvisor.com/Restaurants-g293984-Tel_Aviv_Tel_Aviv_District.html
-        The code is betweenx Restaurants - and - Tel_Aviv: g293984
                                                  ''')
-    parser.add_argument("city", help="The city code to be scrapped.")
+    parser.add_argument("url", help="The city code to be scrapped.")
     parser.add_argument("--pages", help="The amount of pages to be scrapped.", default=1, type=check_positive)
     args = parser.parse_args()
-    return args.city, args.pages
+    city = get_city_code(args.url)
+    return city, args.pages
 
 
 def save_data(scrapper_data):
@@ -40,6 +45,7 @@ def save_data(scrapper_data):
 
     city_persistor.insert(scrapper_data[0].city)
 
+    print("Retrieving geolocation for each restaurant...")
     for restaurant in scrapper_data:
         restaurant_persistor.insert(restaurant)
         geo_location_persistor.insert(restaurant)
