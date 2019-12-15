@@ -128,4 +128,4 @@ dmypy.json
 .idea/
 
 #config_file
-config.py
+config.json
