@@ -30,6 +30,6 @@ Please modify `db_helper/config.json` accordingly to your parameters.
     "password": "",
     "database": "tripAdvisorScrapper"
   },
-  "geo_location_key": YOUR_KEY"
+  "geo_location_key": "YOUR_KEY"
 }
 ````
