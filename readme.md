@@ -24,10 +24,13 @@ Please modify `db_helper/config.json` accordingly to your parameters.
 #### DB Config file
 ````
 {
-  "host": YOUR_HOST,
-  "user": YOUR_USER,
-  "password": YOUR_PASSWORD,
-  "database": "tripAdvisorScrapper"
+  "db": {
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "tripAdvisorScrapper"
+  },
+  "geo_location_key": YOUR_KEY"
 }
 ````
 
