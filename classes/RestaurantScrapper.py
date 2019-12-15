@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup as bs
-from classes.GeoLocationAPI import GeoLocationAPI
 from classes.Restaurant import Restaurant
+
+WEB_URL = "https://www.tripadvisor.com"
 
 
 class RestaurantScrapper:
@@ -15,7 +16,6 @@ class RestaurantScrapper:
         the id is between Restaurants- and -Tel_Aviv: g293984
 
         """
-        self.WEB_URL = "https://www.tripadvisor.com"
         self.RESTAURANTS_URL = f"/Restaurants-{city_id}-xxx.html"
         self.city_id = city_id
 
@@ -37,14 +37,14 @@ class RestaurantScrapper:
 
         :return: list
         """
-        parser = self._create_parser(self.WEB_URL + self.RESTAURANTS_URL)
+        parser = self._create_parser(WEB_URL + self.RESTAURANTS_URL)
 
         urls = []
         for _ in range(pages):
             raw_urls = parser.find_all("a", class_="restaurants-list-ListCell__restaurantName--2aSdo", href=True)
             urls.extend([url["href"] for url in raw_urls])
             next_page = parser.find("a", class_="nav next rndBtn ui_button primary taLnk", href=True)["href"]
-            parser = self._create_parser(self.WEB_URL + next_page)
+            parser = self._create_parser(WEB_URL + next_page)
 
         return urls
 
@@ -112,21 +112,24 @@ class RestaurantScrapper:
             restaurants = []
 
             for key, url in enumerate(urls):
-                full_url = self.WEB_URL + url
-                print(f"#{key + 1} Scrapping {full_url}")
-                parser = self._create_parser(full_url)
+                try:
+                    full_url = WEB_URL + url
+                    print(f"#{key + 1} Scrapping {full_url}")
+                    parser = self._create_parser(full_url)
 
-                key = self._get_url_key(url)
-                name = self._get_name(parser)
-                review = self._get_review(parser)
-                rating = self._get_rating(parser)
-                address = self._get_address(parser)
-                city = self._get_city(parser)
-                country = self._get_country(parser)
-                restaurants.append(
-                    Restaurant(key, name, review, rating, address, city, self.city_id, country))
+                    key = self._get_url_key(url)
+                    name = self._get_name(parser)
+                    review = self._get_review(parser)
+                    rating = self._get_rating(parser)
+                    address = self._get_address(parser)
+                    city = self._get_city(parser)
+                    country = self._get_country(parser)
+                    restaurants.append(
+                        Restaurant(key, name, review, rating, address, city, self.city_id, country))
+                except Exception:
+                    print(f'Error parsing {url}')
 
-                return restaurants
+            return restaurants
         except TypeError:
             print('Oops!, Page Not Found')
             exit()
