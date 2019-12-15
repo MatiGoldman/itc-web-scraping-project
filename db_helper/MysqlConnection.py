@@ -23,6 +23,9 @@ class MysqlConnection:
 
         self.db_cursor = self.db_conn.cursor()
 
+    def close(self):
+        self.db_conn.close()
+
     def __new__(cls):
         """Singleton to instantiate the connection object
         :return: db connection

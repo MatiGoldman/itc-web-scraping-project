@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from classes.Restaurant import Restaurant
+import logging
 
 WEB_URL = "https://www.tripadvisor.com"
 
@@ -18,6 +19,7 @@ class RestaurantScrapper:
         """
         self.RESTAURANTS_URL = f"/Restaurants-{city_id}-xxx.html"
         self.city_id = city_id
+        logging.info(f'Scrapper started {self.RESTAURANTS_URL}')
 
     def _create_parser(self, url):
         """
@@ -106,6 +108,7 @@ class RestaurantScrapper:
         :return: list(Restaurant)
         """
         print("Scrapping {} page".format(pages)) if pages == 1 else print("Scrapping {} pages".format(pages))
+        logging.info(f'Scrapping {pages} pages')
 
         try:
             urls = self._get_urls(pages)
@@ -126,10 +129,14 @@ class RestaurantScrapper:
                     country = self._get_country(parser)
                     restaurants.append(
                         Restaurant(key, name, review, rating, address, city, self.city_id, country))
-                except Exception:
+                except Exception as ex:
                     print(f'Error parsing {url}')
+                    logging.error('Error at %s', 'scrapper', exc_info=ex)
 
             return restaurants
-        except TypeError:
+
+        except TypeError as te:
             print('Oops!, Page Not Found')
+            logging.error('Error at %s', 'scrapper', exc_info=te)
+
             exit()

@@ -18,10 +18,9 @@ class GeoLocationHelper(EntityHelper):
         """
         db_cursor = self.conn.db_cursor
 
-        db_cursor.execute(f"SELECT id FROM geolocation WHERE tripadvisor_id = {restaurant.key}")
-        geo_location_db = db_cursor.fetchall()
+        geo_location_db = self.select(f"SELECT id FROM geolocation WHERE tripadvisor_id = {restaurant.key}")
 
         if not geo_location_db:
             lat, lng = GeoLocationAPI().request(restaurant.address + " " + restaurant.city.name)
-            db_cursor.execute("INSERT INTO geolocation (lat, lng, tripadvisor_id) VALUES (%s, %s, %s)",
-                              (lat, lng, restaurant.key))
+            self.persist("INSERT INTO geolocation (lat, lng, tripadvisor_id) VALUES (%s, %s, %s)",
+                         (lat, lng, restaurant.key))

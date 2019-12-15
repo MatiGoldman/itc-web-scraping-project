@@ -2,7 +2,9 @@ from classes.RestaurantScrapper import RestaurantScrapper
 from db_helper.entity_helper.GeoLocationHelper import GeoLocationHelper
 from db_helper.entity_helper.RestaurantHelper import RestaurantHelper
 from db_helper.entity_helper.CityHelper import CityHelper
+from db_helper.MysqlConnection import MysqlConnection
 import argparse
+import logging
 
 
 def check_positive(value):
@@ -37,14 +39,12 @@ def save_data(scrapper_data):
     restaurant_persistor, city_persistor, geo_location_persistor = RestaurantHelper(), CityHelper(), GeoLocationHelper()
 
     city_persistor.insert(scrapper_data[0].city)
-    city_persistor.commit()
 
     for restaurant in scrapper_data:
         restaurant_persistor.insert(restaurant)
         geo_location_persistor.insert(restaurant)
-    restaurant_persistor.commit()
-    geo_location_persistor.commit()
 
+    MysqlConnection().close()
     print('Done.')
 
 
@@ -52,6 +52,8 @@ def main():
     """
     Executes the functions to get the web scraped and prints the information
     """
+    logging.basicConfig(filename='app.log', format='%(asctime)s - %(message)s',
+                        datefmt='%d-%b-%y %H:%M:%S', level=logging.DEBUG)
 
     city, pages = get_city_page()
     scrapper_data = RestaurantScrapper(city).get_restaurants(pages)

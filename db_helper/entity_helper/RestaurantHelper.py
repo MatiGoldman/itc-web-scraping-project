@@ -1,4 +1,5 @@
 from db_helper.entity_helper.EntityHelper import EntityHelper
+import logging
 
 
 class RestaurantHelper(EntityHelper):
@@ -12,26 +13,26 @@ class RestaurantHelper(EntityHelper):
         Inserts a restaurant into a db
         :param restaurant: restaurant to insert
         """
-        self.conn.db_cursor.execute('''
-                INSERT INTO restaurant(
-                    name,
-                    review,
-                    rating,
-                    address,
-                    timestamp,
-                    tripadvisor_id,
-                    city_id
-                )
-                VALUES (
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s
-                );
-            ''', (
+        self.persist('''
+            INSERT INTO restaurant(
+                name,
+                review,
+                rating,
+                address,
+                timestamp,
+                tripadvisor_id,
+                city_id
+            )
+            VALUES (
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s
+            );
+        ''', (
             restaurant.name,
             restaurant.review,
             restaurant.rating,
@@ -39,4 +40,5 @@ class RestaurantHelper(EntityHelper):
             restaurant.timestamp,
             restaurant.key,
             restaurant.city.id
-        ))
+        )
+                     )
