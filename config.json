@@ -1,9 +1,0 @@
-{
-  "db": {
-    "host": "localhost",
-    "user": "root",
-    "password": "",
-    "database": "tripAdvisorScrapper"
-  },
-  "geo_location_key": "U7z8IElqhzvEhaeH5LGHh5yB23Vclapo"
-}
