@@ -15,9 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE SCHEMA IF NOT EXISTS `tripAdvisorScrapper` ;
-USE tripAdvisorScrapper;
-
 --
 -- Table structure for table `city`
 --
@@ -29,7 +26,7 @@ CREATE TABLE `city` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,11 +38,12 @@ DROP TABLE IF EXISTS `geolocation`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `geolocation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tripadvisor_id` int(11) DEFAULT NULL,
   `lat` double DEFAULT NULL,
-  `lng` double DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `tripadvisor_id` int(11) NOT NULL,
+  `lng` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_geolocation_1_idx` (`tripadvisor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,13 +60,15 @@ CREATE TABLE `restaurant` (
   `rating` float DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `timestamp` datetime DEFAULT NULL,
-  `tripadvisor_id` int(11) DEFAULT NULL,
+  `tripadvisor_id` int(11) NOT NULL,
   `city_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `city_idx` (`city_id`),
   KEY `timestamp` (`timestamp`),
-  CONSTRAINT `city` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  KEY `index4` (`tripadvisor_id`),
+  CONSTRAINT `city` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
+  CONSTRAINT `fk_restaurant_1` FOREIGN KEY (`tripadvisor_id`) REFERENCES `geolocation` (`tripadvisor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -80,4 +80,4 @@ CREATE TABLE `restaurant` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-15 11:19:29
+-- Dump completed on 2019-12-16 13:34:02
