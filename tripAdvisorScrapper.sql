@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `tripAdvisorScrapper` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `tripAdvisorScrapper`;
 -- MySQL dump 10.13  Distrib 8.0.18, for Linux (x86_64)
 --
 -- Host: localhost    Database: tripAdvisorScrapper
@@ -42,8 +44,9 @@ CREATE TABLE `geolocation` (
   `tripadvisor_id` int(11) NOT NULL,
   `lng` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_geolocation_1_idx` (`tripadvisor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `restaurant_idx` (`tripadvisor_id`),
+  CONSTRAINT `restaurant` FOREIGN KEY (`tripadvisor_id`) REFERENCES `restaurant` (`tripadvisor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,10 +68,9 @@ CREATE TABLE `restaurant` (
   PRIMARY KEY (`id`),
   KEY `city_idx` (`city_id`),
   KEY `timestamp` (`timestamp`),
-  KEY `index4` (`tripadvisor_id`),
-  CONSTRAINT `city` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
-  CONSTRAINT `fk_restaurant_1` FOREIGN KEY (`tripadvisor_id`) REFERENCES `geolocation` (`tripadvisor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `tripadvisor_id` (`tripadvisor_id`),
+  CONSTRAINT `city` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -80,4 +82,4 @@ CREATE TABLE `restaurant` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-16 13:34:02
+-- Dump completed on 2019-12-16 13:57:40
