@@ -7,13 +7,13 @@ Its intention is to scrap the tripadvisor web to find restaurants.
 
 ### Usage
 
-`python3 main.py {ID} --pages={NUMBER_OF_PAGES}`
+`python3 main.py {URL} --pages={NUMBER_OF_PAGES}`
 
 #### EX:
 
 URL: https://www.tripadvisor.com/Restaurants-g293984-Tel_Aviv_Tel_Aviv_District.html
 
-The id is between Restaurants- and -Tel_Aviv: **g293984**, therefore `python3 main.py g293984 --pages=1`
+`python3 main.py https://www.tripadvisor.com/Restaurants-g293984-Tel_Aviv_Tel_Aviv_District.html --pages=1`
 
 
 ### Installation
