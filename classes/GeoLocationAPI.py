@@ -6,6 +6,7 @@ JOINT = "&"
 LOCATION = "location="
 CFG_PATH = 'config.json'
 
+
 class GeoLocationAPI:
     def __init__(self):
         with open(CFG_PATH) as cfg:
