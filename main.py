@@ -19,8 +19,13 @@ def check_positive(value):
 
 
 def get_city_code(url):
-    return url.split("-")[CITY_CODE]
-
+    try:
+        return url.split("-")[CITY_CODE]
+    except Exception as ex:
+        logging.error('Error at %s', 'main', exc_info=ex)
+        print("Could not parse the URL: " + str(ex))
+        print("Please, check the provided URL.")
+        exit()
 
 def get_city_page():
     """Parse the arguments from the CLI. It is asked to provide a city and the amount of cities to be scrapped
