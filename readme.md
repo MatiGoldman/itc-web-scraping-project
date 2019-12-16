@@ -34,6 +34,6 @@ Please create file `/config.json` accordingly to your parameters.
   "geo_location_key": "YOUR_KEY"
 }
 ````
-#### Authors
-- Maximiliano Ozernickz https://github.com/maxiozer
-- Matias Goldman https://github.com/MatiGoldman
+### Authors
+- Maximiliano Ozernickz <a href="https://github.com/maxiozer"> @maxiozer </a>
+- Matias Goldman <a href="https://github.com/MatiGoldman"> @MatiGoldman </a>
